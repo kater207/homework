@@ -1,4 +1,139 @@
-1. извлечь из файла массив. Ключ соответствует порядквому номеру группе.
-2. отсортировать массив с помощью алгоритмов: слиянием, куча, быстрая сортировка
-3. в файле first.py реализован подсчёт времени работы программы.
-4. сравнить скорость работы алгоритмов
+import operator 
+from random import randrange 
+import time 
+ 
+ 
+from datetime import datetime 
+  
+array = [ randrange(0, 15) for i in range(10) ] 
+
+ 
+max_list = len( array ) 
+def merge_sort(array): 
+ if len(array) < 2: return array 
+ 
+ i = 0 
+while i < max_list: 
+   result, mid = [], int(len(array) / 2) 
+ 
+ 
+   j = 0 
+   while j < max_list-i-1: 
+    L = merge_sort(array[:mid]) 
+    R = merge_sort(array[mid:]) 
+   if array[ j ] > array[ j + 1 ]: 
+    while (len(L) > 0) and (len(R) > 0): 
+       if L[0] > R[0]: 
+         result.append(R.pop(0)) 
+       else: 
+           result.append(L.pop(0)) 
+ 
+ 
+    array[ j ], array[ j + 1] = array[ j + 1], array[ j ] 
+   j+=1 
+   i += 1 
+   result.extend(L + R) 
+   return result 
+  
+ 
+   print( array ) 
+ 
+ 
+   def heapify(array, length, i): 
+     largest = i 
+     L = 2 * i + 1 
+     R = 2 * i + 2  
+ 
+   if L < length and array[i] < array[L]: 
+        largest = L 
+  
+ 
+from datetime import datetime 
+if R < length and array[largest] < array[R]: 
+       largest = R 
+ 
+ 
+if largest != i: 
+       array[i], array[largest] = array[largest], array[i] 
+       heapify(array, length, largest) 
+ 
+
+def heap_sort(array): 
+    length = len(array) 
+
+ 
+    for i in range(length, -1, -1): 
+        heapify(array, length, i) 
+ 
+for i in range(length - 1, 0, -1): 
+       array[i], array[0] = array[0], array[i] 
+       heapify(array, i, 0) 
+       return array 
+ 
+ 
+def quick_sort(array): 
+    less = [] 
+    equal = [] 
+    greater = [] 
+ 
+ 
+    if len(array) > 1: 
+       pivot = array[0] 
+    for number in array: 
+             if number < pivot: 
+               less.append(number) 
+             elif number == pivot: 
+               equal.append(number) 
+             elif number > pivot: 
+              greater.append(number) 
+return quick_sort(less) + equal + quick_sort(greater) 
+ 
+file = open("ai183.txt", "r") 
+someArray = [] 
+
+firstTestCheck = False 
+secondTestCheck = False 
+
+ 
+while True: 
+   check = file.read(1) 
+   if not check: 
+       break 
+ 
+   if check == "18": 
+        check = file.read(1) 
+   if check == '3': 
+            firstTestCheck = True 
+            check = file.read(1) 
+   if check == ":": 
+             secondTestCheck = True 
+ 
+ 
+   if firstTestCheck == True and secondTestCheck == True: 
+     file.seek(file.tell() + 1) 
+check = file.read(1) 
+while check != "}": 
+           someArray.append(int(check)) 
+check = file.read(1) 
+break 
+ 
+ 
+file.close() 
+ 
+start_time = datetime.now() 
+print(merge_sort(someArray)) 
+end_time = datetime.now() 
+print('Duration: {}'.format(end_time - start_time))  
+start_time = datetime.now() 
+print(heap_sort(someArray)) 
+end_time = datetime.now() 
+print('Duration: {}'.format(end_time - start_time)) 
+  
+start_time = datetime.now() 
+ 
+print(quick_sort(someArray)) 
+end_time = datetime.now() 
+print('Duration: {}'.format(end_time - start_time))         
+          No newline at end of file :  
+print('Duration: {}'.format(end_time - start_time)) 
+
